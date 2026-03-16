@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentController {
@@ -18,7 +20,7 @@ public class PaymentController {
     }
 
     @PostMapping("/initiate")
-    public PaymentResponse initiatePayment(@RequestBody PaymentRequest paymentRequest) {
+    public List<PaymentResponse> initiatePayment(@RequestBody PaymentRequest paymentRequest) {
         return paymentService.initiatePayment(paymentRequest);
     }
 }

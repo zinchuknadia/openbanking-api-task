@@ -1,5 +1,9 @@
 spring:
   application:
     name: OpenBankingApiTask
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
 server:
   port: 8081
