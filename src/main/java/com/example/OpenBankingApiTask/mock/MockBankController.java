@@ -1,18 +1,18 @@
 package com.example.OpenBankingApiTask.mock;
 
-import com.example.OpenBankingApiTask.dto.BalanceResponse;
-import com.example.OpenBankingApiTask.dto.PaymentRequest;
-import com.example.OpenBankingApiTask.dto.PaymentResponse;
-import com.example.OpenBankingApiTask.dto.TransactionDto;
+import com.example.OpenBankingApiTask.dto.*;
+import com.example.OpenBankingApiTask.enums.PaymentStatus;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/mock/bank")
+@Validated
 public class MockBankController {
     @GetMapping("/accounts/{iban}/balance")
     public BalanceResponse getBalance(@PathVariable String iban) {
@@ -32,15 +32,19 @@ public class MockBankController {
                         "EUR",
                         "Salary",
                         LocalDate.of(2026, 1, 1)
+                ),
+                new TransactionDto(
+                        iban,
+                        BigDecimal.valueOf(3000),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2024, 10, 11)
                 )
         );
     }
 
     @PostMapping("/payments")
-    public List<PaymentResponse> savePayment(@RequestBody PaymentRequest paymentRequest) {
-        List<PaymentResponse> responses = new ArrayList<>();
-        responses.add(new PaymentResponse(paymentRequest.getFromIban(), "SUCCESS"));
-        responses.add(new PaymentResponse(paymentRequest.getToIban(), "SUCCESS"));
-        return responses;
+    public ExternalPaymentResponse savePayment(@Valid @RequestBody PaymentRequest request) {
+        return new ExternalPaymentResponse("1234", PaymentStatus.ACCEPTED);
     }
 }

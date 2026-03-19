@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentResponse {
-    private Long paymentId;
+public class ExternalPaymentResponse {
+    private String paymentId;
     private PaymentStatus status;
-    private String externalPaymentId;
 }

@@ -1,9 +1,6 @@
 package com.example.OpenBankingApiTask.client;
 
-import com.example.OpenBankingApiTask.dto.BalanceResponse;
-import com.example.OpenBankingApiTask.dto.PaymentRequest;
-import com.example.OpenBankingApiTask.dto.PaymentResponse;
-import com.example.OpenBankingApiTask.dto.TransactionDto;
+import com.example.OpenBankingApiTask.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,11 +27,11 @@ public class ExternalBankClient {
         );
     }
 
-    public List<PaymentResponse> sendPayment(PaymentRequest paymentRequest) {
+    public ExternalPaymentResponse sendPayment(PaymentRequest request) {
         return restTemplate.postForObject(
                 "/mock/bank/payments",
-                paymentRequest,
-                List.class
+                request,
+                ExternalPaymentResponse.class
         );
     }
 }
