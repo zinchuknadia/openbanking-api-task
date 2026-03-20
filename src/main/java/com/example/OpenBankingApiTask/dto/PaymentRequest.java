@@ -14,22 +14,27 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class PaymentRequest {
     @NotBlank(message = "Sender IBAN must not be empty")
-    @Schema(example = "UA123456789012345")
+    @Schema(description = "Sender IBAN", example = "UA123456789012345")
     @Pattern(
             regexp = "^[A-Z]{2}\\d{2}[A-Z0-9]{10,30}$",
             message = "Invalid IBAN format"
     )
     private String fromIban;
+
     @NotBlank(message = "Receiver IBAN must not be empty")
-    @Schema(example = "UA124567890123456")
+    @Schema(description = "Receiver IBAN", example = "UA124567890123456")
     @Pattern(
             regexp = "^[A-Z]{2}\\d{2}[A-Z0-9]{10,30}$",
             message = "Invalid IBAN format"
     )
     private String toIban;
+
     @NotNull(message = "Amount is required")
     @Positive(message = "Amount must be greater than zero")
+    @Schema(description = "Payment amount", example = "105")
     private BigDecimal amount;
+
     @NotBlank(message = "Currency must not be empty")
+    @Schema(description = "Currency code", example = "EUR")
     private String currency;
 }
