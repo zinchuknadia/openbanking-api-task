@@ -24,8 +24,8 @@ public class PaymentController {
     }
 
     @PostMapping("/initiate")
-    public PaymentResponse initiatePayment(@Valid @RequestBody PaymentRequest paymentRequest) {
-        return paymentOrchestrator.initiatePayment(paymentRequest);
+    public ResponseEntity<PaymentResponse> initiatePayment(@Valid @RequestBody PaymentRequest paymentRequest) {
+        return new ResponseEntity<>(paymentOrchestrator.initiatePayment(paymentRequest), HttpStatus.CREATED);
     }
 
     @ExceptionHandler(CurrencyMismatchException.class)

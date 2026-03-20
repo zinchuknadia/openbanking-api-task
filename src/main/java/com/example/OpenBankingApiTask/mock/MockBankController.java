@@ -3,6 +3,8 @@ package com.example.OpenBankingApiTask.mock;
 import com.example.OpenBankingApiTask.dto.*;
 import com.example.OpenBankingApiTask.enums.PaymentStatus;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +17,18 @@ import java.util.List;
 @Validated
 public class MockBankController {
     @GetMapping("/accounts/{iban}/balance")
-    public BalanceResponse getBalance(@PathVariable String iban) {
-        return new BalanceResponse(
+    public ResponseEntity<BalanceResponse> getBalance(@PathVariable String iban) {
+        BalanceResponse balance = new BalanceResponse(
                 iban,
                 BigDecimal.valueOf(1000),
                 "EUR"
         );
+        return new ResponseEntity<>(balance, HttpStatus.OK);
     }
 
     @GetMapping("/accounts/{iban}/transactions")
-    public List<TransactionDto> getTransactions(@PathVariable String iban) {
-        return List.of(
+    public ResponseEntity<List<TransactionDto>> getTransactions(@PathVariable String iban) {
+        List<TransactionDto> transactions = List.of(
                 new TransactionDto(
                         iban,
                         BigDecimal.valueOf(1000),
@@ -41,10 +44,12 @@ public class MockBankController {
                         LocalDate.of(2024, 10, 11)
                 )
         );
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @PostMapping("/payments")
-    public ExternalPaymentResponse savePayment(@Valid @RequestBody PaymentRequest request) {
-        return new ExternalPaymentResponse("1234", PaymentStatus.ACCEPTED);
+    public ResponseEntity<ExternalPaymentResponse> savePayment(@Valid @RequestBody PaymentRequest request) {
+        ExternalPaymentResponse response = new ExternalPaymentResponse("1234", PaymentStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
