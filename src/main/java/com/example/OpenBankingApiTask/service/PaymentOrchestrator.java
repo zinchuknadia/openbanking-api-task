@@ -25,9 +25,14 @@ public class PaymentOrchestrator {
         paymentService.validate(paymentRequest, balance);
 
         Payment payment = paymentService.createPayment(paymentRequest);
-        ExternalPaymentResponse response = externalBankClient.sendPayment(paymentRequest);
-        payment = paymentService.updateAfterExternal(payment.getId(), response);
 
+        try {
+            ExternalPaymentResponse response = externalBankClient.sendPayment(paymentRequest);
+            payment = paymentService.updateAfterExternal(payment.getId(), response);
+        } catch (Exception e) {
+            paymentService.markAsFailed(payment.getId());
+            throw e;
+        }
         return new PaymentResponse(
                 payment.getId(),
                 payment.getStatus(),

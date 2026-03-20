@@ -55,4 +55,14 @@ public class PaymentService {
 
         return paymentRepository.save(payment);
     }
+
+    @Transactional
+    public void markAsFailed(Long id) {
+        Payment payment = paymentRepository.findById(id)
+                .orElseThrow(() -> new PaymentNotFoundException("Payment with id " + id + " not found"));
+        payment.setStatus(PaymentStatus.FAILED);
+        payment.setUpdatedAt(LocalDateTime.now());
+
+        paymentRepository.save(payment);
+    }
 }
