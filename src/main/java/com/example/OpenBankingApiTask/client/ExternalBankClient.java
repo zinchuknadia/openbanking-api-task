@@ -1,6 +1,8 @@
 package com.example.OpenBankingApiTask.client;
 
 import com.example.OpenBankingApiTask.dto.*;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,10 +23,12 @@ public class ExternalBankClient {
     }
 
     public List<TransactionDto> getTransactions(String iban) {
-        return restTemplate.getForObject(
+        return restTemplate.exchange(
                 "/mock/bank/accounts/" + iban + "/transactions",
-                List.class
-        );
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<TransactionDto>>() {}
+        ).getBody();
     }
 
     public ExternalPaymentResponse sendPayment(PaymentRequest request) {
