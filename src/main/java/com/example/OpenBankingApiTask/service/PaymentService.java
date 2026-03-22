@@ -22,10 +22,13 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    public void validate(PaymentRequest request, BalanceResponse balance) {
+    public void validateCurrency(PaymentRequest request, BalanceResponse balance) {
         if (!balance.getCurrency().equals(request.getCurrency())) {
             throw new CurrencyMismatchException("Currency mismatch");
         }
+    }
+
+    public void validateAmount(PaymentRequest request, BalanceResponse balance) {
         if (balance.getBalance().compareTo(request.getAmount()) < 0) {
             throw new InsufficientFundsException("Insufficient funds");
         }

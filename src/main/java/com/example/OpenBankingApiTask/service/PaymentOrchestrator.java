@@ -22,7 +22,8 @@ public class PaymentOrchestrator {
 
     public PaymentResponse initiatePayment(PaymentRequest paymentRequest) {
         BalanceResponse balance = accountService.getBalance(paymentRequest.getFromIban());
-        paymentService.validate(paymentRequest, balance);
+        paymentService.validateCurrency(paymentRequest, balance);
+        paymentService.validateAmount(paymentRequest, balance);
 
         Payment payment = paymentService.createPayment(paymentRequest);
 
