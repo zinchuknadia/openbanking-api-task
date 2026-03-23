@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/payments")
 @Validated
 public class PaymentController {
+    private final static Logger LOGGER = LoggerFactory.getLogger(PaymentController.class);
     private final PaymentOrchestrator paymentOrchestrator;
 
     public PaymentController(PaymentOrchestrator paymentOrchestrator) {
@@ -37,6 +40,8 @@ public class PaymentController {
     @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping("/initiate")
     public ResponseEntity<PaymentResponse> initiatePayment(@Valid @RequestBody PaymentRequest paymentRequest) {
+        LOGGER.info("POST /initiate called fromIban = {}, toIban = {}, amount = {}, currency = {}",
+                paymentRequest.getFromIban(), paymentRequest.getToIban(), paymentRequest.getAmount(), paymentRequest.getCurrency());
         return new ResponseEntity<>(paymentOrchestrator.initiatePayment(paymentRequest), HttpStatus.CREATED);
     }
 

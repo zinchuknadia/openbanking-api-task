@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,13 +23,14 @@ import java.util.List;
 @RequestMapping("/mock/bank")
 @Validated
 public class MockBankController {
-
+    private final static Logger LOGGER = LoggerFactory.getLogger(MockBankController.class);
     @Operation(
             summary = "Get account balance",
             description = "Mocks getting balance by IBAN"
     )
     @GetMapping("/accounts/{iban}/balance")
     public ResponseEntity<BalanceResponse> getBalance(@Parameter(description = "Account ID", example = "UK1234567890345") @PathVariable String iban) {
+        LOGGER.info("GET accounts/{}/balance called", iban);
         BalanceResponse balance = new BalanceResponse(
                 iban,
                 BigDecimal.valueOf(1000),
@@ -42,6 +45,7 @@ public class MockBankController {
     )
     @GetMapping("/accounts/{iban}/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactions(@Parameter(description = "Account ID", example = "UK1234567890345") @PathVariable String iban) {
+        LOGGER.info("GET accounts/{}/transactions", iban);
         List<TransactionDto> transactions = List.of(
                 new TransactionDto(
                         iban,
@@ -68,6 +72,8 @@ public class MockBankController {
     @ApiResponse(responseCode = "201", description = "Payment successfully processed")
     @PostMapping("/payments")
     public ResponseEntity<ExternalPaymentResponse> savePayment(@Valid @RequestBody PaymentRequest request) {
+        LOGGER.info("POST /payments called fromIban = {}, toIban = {}, amount = {}, currency = {}",
+                request.getFromIban(), request.getToIban(), request.getAmount(), request.getCurrency());
         ExternalPaymentResponse response = new ExternalPaymentResponse("ext-1234", PaymentStatus.ACCEPTED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
