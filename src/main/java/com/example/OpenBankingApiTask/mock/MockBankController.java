@@ -49,7 +49,55 @@ public class MockBankController {
         List<TransactionDto> transactions = List.of(
                 new TransactionDto(
                         iban,
+                        BigDecimal.valueOf(5000),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2026, 1, 1)
+                ),new TransactionDto(
+                        iban,
+                        BigDecimal.valueOf(100),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2026, 1, 1)
+                ),new TransactionDto(
+                        iban,
+                        BigDecimal.valueOf(2000),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2026, 1, 1)
+                ),new TransactionDto(
+                        iban,
                         BigDecimal.valueOf(1000),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2026, 1, 1)
+                ),new TransactionDto(
+                        iban,
+                        BigDecimal.valueOf(1000),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2026, 1, 1)
+                ),new TransactionDto(
+                        iban,
+                        BigDecimal.valueOf(1000),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2026, 1, 1)
+                ),new TransactionDto(
+                        iban,
+                        BigDecimal.valueOf(10),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2026, 1, 1)
+                ),new TransactionDto(
+                        iban,
+                        BigDecimal.valueOf(1000),
+                        "EUR",
+                        "Salary",
+                        LocalDate.of(2026, 1, 1)
+                ),new TransactionDto(
+                        iban,
+                        BigDecimal.valueOf(8000),
                         "EUR",
                         "Salary",
                         LocalDate.of(2026, 1, 1)
